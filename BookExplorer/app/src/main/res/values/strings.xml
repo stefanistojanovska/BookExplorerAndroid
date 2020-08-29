@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Book Explorer</string>
+
+    <string name="dummy_content">📖 Book Explorer</string>
+</resources>
