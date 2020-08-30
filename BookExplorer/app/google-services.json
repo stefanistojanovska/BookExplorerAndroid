@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "865818283529",
+    "firebase_url": "https://bookexplorer-31bcc.firebaseio.com",
+    "project_id": "bookexplorer-31bcc",
+    "storage_bucket": "bookexplorer-31bcc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:865818283529:android:19f7771bfcef0deb6432d8",
+        "android_client_info": {
+          "package_name": "com.mpip.bookexplorer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "865818283529-3c2grjrhsd7t4vstrc2ra8u3usum16of.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbUe-3zk2YNUwkqRncb7jAq10ixMcOGOA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "865818283529-3c2grjrhsd7t4vstrc2ra8u3usum16of.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
