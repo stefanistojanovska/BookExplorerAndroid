@@ -24,6 +24,13 @@
                 android:text="Sign Out" app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="464dp"
                 android:layout_marginStart="160dp"/>
+        <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tmpText"
+                app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="293dp"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="174dp"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

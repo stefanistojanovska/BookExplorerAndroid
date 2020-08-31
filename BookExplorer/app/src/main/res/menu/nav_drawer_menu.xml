@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+>
     <group android:id="@+id/grp1">
           <item android:id="@+id/item1"
              android:title="Item 1"/>
@@ -8,9 +9,14 @@
     </group>
 
 
-
-    <item android:id="@+id/item3"
+    <group android:id="@+id/loginGroup">
+    <item android:id="@+id/login"
           android:title="Log in"/>
-
+    </group>
+    <group android:id="@+id/logoutGroup">
+    <item android:id="@+id/logout"
+          android:title="Log out"
+    android:visible="false"/>
+    </group>
 
 </menu>
