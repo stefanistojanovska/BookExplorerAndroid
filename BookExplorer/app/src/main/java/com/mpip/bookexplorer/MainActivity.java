@@ -1,14 +1,12 @@
 package com.mpip.bookexplorer;
 
 import android.content.Intent;
-import android.media.session.MediaSession;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -21,29 +19,27 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
-
-import com.google.android.material.shape.RoundedCornerTreatment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
-
-
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
+
 
 public class MainActivity extends AppCompatActivity {
     List<AuthUI.IdpConfig> providers;
     ActionBarDrawerToggle toggle;
     DrawerLayout drawerLayout;
     NavigationView nav;
-    TextView tmp;
     TextView userHeader;
     TextView displayNameHeader;
     ImageView userImage;
-
-
+    EditText input;
+    List<String> titles=new ArrayList<>();
+    public static List<String> DATA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +91,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+
+
     }
 
     private void showSignInOptions() {
@@ -108,6 +107,14 @@ public class MainActivity extends AppCompatActivity {
         if(toggle.onOptionsItemSelected(item))
             return true;
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu, menu);
+
+        return true;
     }
 
     @Override
@@ -133,12 +140,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void initViews()
     {
-        tmp=(TextView)findViewById(R.id.tmpText);
+
         drawerLayout = (DrawerLayout) findViewById(R.id.mDrawerLayout);
         nav = (NavigationView) findViewById(R.id.navView);
         userHeader=(TextView)nav.getHeaderView(0).findViewById(R.id.txtUserEmail);
         displayNameHeader=(TextView) nav.getHeaderView(0).findViewById(R.id.txtUserDisplayName);
         userImage=(ImageView)nav.getHeaderView(0).findViewById(R.id.userImage);
+        input=(EditText)findViewById(R.id.input_hint);
 
     }
 
@@ -167,5 +175,26 @@ public class MainActivity extends AppCompatActivity {
 
             Picasso.get().load("https://thumbs.dreamstime.com/b/incognito-icon-question-mark-vector-icon-protection-symbol-vector-stock-illustration-incognito-icon-question-mark-vector-icon-181081062.jpg").transform(new CircleTransform()).into(userImage);
         }
+    }
+
+    public void searchBooks(View view) {
+        String queryString=input.getText().toString();
+        try {
+            titles= new FetchBooks().execute(queryString).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //titles=books.getBooks();
+        Log.d("MAIN------------>",titles.get(0));
+
+    }
+
+
+
+
+    public void loadBooks(List<String> books) {
+            titles=books;
     }
 }
