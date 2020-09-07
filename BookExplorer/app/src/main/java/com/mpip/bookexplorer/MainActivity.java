@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.mpip.bookexplorer.Models.Book;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView userImage;
     EditText input;
     List<String> titles=new ArrayList<>();
-    public static List<String> DATA;
+    List<Book> data=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
     private void showSignInOptions() {
         startActivityForResult(
                 AuthUI.getInstance().createSignInIntentBuilder().setAvailableProviders(providers).setTheme(R.style.MyTheme).build(),7117);
-
     }
 
     @Override
@@ -127,11 +127,7 @@ public class MainActivity extends AppCompatActivity {
             {
                 FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
                 Toast.makeText(this,"Welcome, "+user.getEmail(),Toast.LENGTH_SHORT).show();
-
-
                 editMenuGroup(true);
-
-
 
             }
 
@@ -180,21 +176,18 @@ public class MainActivity extends AppCompatActivity {
     public void searchBooks(View view) {
         String queryString=input.getText().toString();
         try {
-            titles= new FetchBooks().execute(queryString).get();
+           data= new FetchBooks().execute(queryString).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         //titles=books.getBooks();
-        Log.d("MAIN------------>",titles.get(0));
+        System.out.println("MAIN------------>"+data.get(0).getTitle());
 
     }
 
 
 
 
-    public void loadBooks(List<String> books) {
-            titles=books;
-    }
 }
