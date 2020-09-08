@@ -22,9 +22,11 @@ public class FetchBooks extends AsyncTask<String, Void, List<Book>> {
 
     @Override
     protected List<Book> doInBackground(String... strings) {
-        //fetch
+
         try {
+            //fetch
             String data=NetworkUtils.getBookInfo(strings[0]);
+            //parse
             JSONObject jsonObject=new JSONObject(data);
             JSONArray jsonArray = jsonObject.getJSONArray("items");
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -40,6 +42,7 @@ public class FetchBooks extends AsyncTask<String, Void, List<Book>> {
                 String date="Not available";
                 String publisher="Not available";
                 List<String> authors=new ArrayList<>();
+
                 try
                 {
                     poster=info.getJSONObject("imageLinks").getString("smallThumbnail");
@@ -107,18 +110,13 @@ public class FetchBooks extends AsyncTask<String, Void, List<Book>> {
                 bookTmp=new Book(title,authors,desc,pageCount,poster,isbn,date,publisher);
                 bookResults.add(bookTmp);
 
-
-                    //titles.add(publisher);
-                //titles.add(info.getString("title"));
             }
-            Book b=bookResults.get(2);
-            Log.d("DATA",b.getTitle()+"\n"+b.getDescription()+"\n"+b.getISBN()+"\n"+b.getPageCount()+"\n"+b.getPublisher());
+            //Book b=bookResults.get(2);
+            //Log.d("DATA",b.getTitle()+"\n"+b.getDescription()+"\n"+b.getISBN()+"\n"+b.getPageCount()+"\n"+b.getPublisher());
 
         }catch (Exception e)
         {
             Log.d("ERROR","PARSING-->"+e.getMessage());
-
-
         }
         return bookResults;
 

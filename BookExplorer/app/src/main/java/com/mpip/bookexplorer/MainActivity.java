@@ -1,11 +1,7 @@
 package com.mpip.bookexplorer;
 
 import android.content.Intent;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +9,9 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,6 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.mpip.bookexplorer.Adapters.CustomListAdapter;
 import com.mpip.bookexplorer.Models.Book;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
@@ -41,12 +41,18 @@ public class MainActivity extends AppCompatActivity {
     EditText input;
     List<String> titles=new ArrayList<>();
     List<Book> data=new ArrayList<>();
+    LinearLayout home;
+    LinearLayout result;
+    CustomListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
+
+        home.setVisibility(View.VISIBLE);
+        result.setVisibility(View.INVISIBLE);
 
         providers= Arrays.asList(
                 new AuthUI.IdpConfig.GoogleBuilder().build(),
@@ -89,6 +95,12 @@ public class MainActivity extends AppCompatActivity {
                     });
                     userHeader.setText("");
                 }
+                else if(item.toString().equals("Home"))
+                {
+                    home.setVisibility(View.INVISIBLE);
+                    result.setVisibility(View.VISIBLE);
+                    drawerLayout.closeDrawers();
+                }
                 return true;
             }
         });
@@ -96,6 +108,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
 
     private void showSignInOptions() {
         startActivityForResult(
@@ -113,6 +127,39 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.options_menu, menu);
+        MenuItem item=menu.findItem(R.id.search_icon);
+        SearchView searchView=(SearchView) item.getActionView();
+        searchView.setQueryHint("Enter a book name");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                try {
+                    data= new FetchBooks().execute(query).get();
+                    //showdata
+                    home.setVisibility(View.INVISIBLE);
+                    result.setVisibility(View.VISIBLE);
+                    RecyclerView recyclerView =  findViewById(R.id.recyclerViewResults);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                    recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+                    adapter=new CustomListAdapter(data);
+                    recyclerView.setAdapter(adapter);
+
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                //titles=books.getBooks();
+                //System.out.println("MAIN------------>"+data.get(0).getTitle());
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
 
         return true;
     }
@@ -136,13 +183,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void initViews()
     {
-
+        home=(LinearLayout) findViewById(R.id.Home);
+        result=(LinearLayout) findViewById(R.id.Results);
         drawerLayout = (DrawerLayout) findViewById(R.id.mDrawerLayout);
         nav = (NavigationView) findViewById(R.id.navView);
         userHeader=(TextView)nav.getHeaderView(0).findViewById(R.id.txtUserEmail);
         displayNameHeader=(TextView) nav.getHeaderView(0).findViewById(R.id.txtUserDisplayName);
         userImage=(ImageView)nav.getHeaderView(0).findViewById(R.id.userImage);
-        input=(EditText)findViewById(R.id.input_hint);
+
 
     }
 
@@ -173,19 +221,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void searchBooks(View view) {
-        String queryString=input.getText().toString();
-        try {
-           data= new FetchBooks().execute(queryString).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        //titles=books.getBooks();
-        System.out.println("MAIN------------>"+data.get(0).getTitle());
 
-    }
+
 
 
 

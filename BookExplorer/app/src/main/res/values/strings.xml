@@ -17,5 +17,6 @@
     <string name="facebook_login_protocol_scheme" translatable="false">fb1216991408681956</string>
     <string name="search_title">Search</string>
     <string name="search_hint">SearchHint</string>
+    <string name="more_info">More Info</string>
 
 </resources>

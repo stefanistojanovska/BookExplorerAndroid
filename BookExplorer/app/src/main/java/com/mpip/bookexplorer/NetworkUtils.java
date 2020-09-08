@@ -30,7 +30,7 @@ public class NetworkUtils {
         {
             Uri builtURI=Uri.parse(BOOK_BASE_URL).buildUpon()
                     .appendQueryParameter(QUERY_PARAM,queryString)
-                    .appendQueryParameter(MAX_RESULTS,"10")
+                    .appendQueryParameter(MAX_RESULTS,"40")
                     .appendQueryParameter(PRINT_TYPE,"books")
                     .build();
             URL requestURL=new URL(builtURI.toString());
