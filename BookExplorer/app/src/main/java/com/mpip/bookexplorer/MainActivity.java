@@ -1,6 +1,9 @@
 package com.mpip.bookexplorer;
 
 import android.content.Intent;
+import android.os.Build;
+import android.text.Html;
+import android.text.Layout;
 import android.view.*;
 import android.widget.*;
 import androidx.annotation.NonNull;
@@ -8,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -42,8 +46,23 @@ public class MainActivity extends AppCompatActivity {
     List<String> titles=new ArrayList<>();
     List<Book> data=new ArrayList<>();
     LinearLayout home;
-    LinearLayout result;
+    static LinearLayout result;
+    static ConstraintLayout details;
     CustomListAdapter adapter;
+    Button btnInfo;
+    static ScrollView scrollView;
+
+    //data for details
+    static TextView detailsTitle;
+    static ImageView detailsPoster;
+    static TextView detailsAuthors;
+    static TextView detailsIsbn;
+    static TextView detailsPublisher;
+    static TextView detailsDate;
+    static TextView detailsPageCount;
+    static TextView detailsDescription;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
         home.setVisibility(View.VISIBLE);
         result.setVisibility(View.INVISIBLE);
+        details.setVisibility(View.INVISIBLE);
 
         providers= Arrays.asList(
                 new AuthUI.IdpConfig.GoogleBuilder().build(),
@@ -107,9 +127,19 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
     }
 
 
+    @Override
+    public void onBackPressed() {
+        if(details.getVisibility()==View.VISIBLE)
+        {
+            details.setVisibility(View.INVISIBLE);
+            result.setVisibility(View.VISIBLE);
+
+        }
+    }
 
     private void showSignInOptions() {
         startActivityForResult(
@@ -137,10 +167,12 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     data= new FetchBooks().execute(query).get();
                     //showdata
+
                     home.setVisibility(View.INVISIBLE);
                     result.setVisibility(View.VISIBLE);
                     RecyclerView recyclerView =  findViewById(R.id.recyclerViewResults);
                     recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
                     recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
                     adapter=new CustomListAdapter(data);
                     recyclerView.setAdapter(adapter);
@@ -185,12 +217,23 @@ public class MainActivity extends AppCompatActivity {
     {
         home=(LinearLayout) findViewById(R.id.Home);
         result=(LinearLayout) findViewById(R.id.Results);
+        details=(ConstraintLayout) findViewById(R.id.Details);
         drawerLayout = (DrawerLayout) findViewById(R.id.mDrawerLayout);
         nav = (NavigationView) findViewById(R.id.navView);
         userHeader=(TextView)nav.getHeaderView(0).findViewById(R.id.txtUserEmail);
         displayNameHeader=(TextView) nav.getHeaderView(0).findViewById(R.id.txtUserDisplayName);
         userImage=(ImageView)nav.getHeaderView(0).findViewById(R.id.userImage);
-
+        btnInfo=(Button) findViewById(R.id.btnInfo);
+        detailsTitle=(TextView) findViewById(R.id.detailsTitle);
+        detailsPoster=(ImageView) findViewById(R.id.detailsPoster);
+        detailsAuthors=(TextView) findViewById(R.id.detailsAuthors);
+        detailsIsbn=(TextView) findViewById(R.id.detailsIsbn);
+        detailsPublisher=(TextView) findViewById(R.id.detailsPublisher);
+        detailsDate=(TextView) findViewById(R.id.detailsDate);
+        detailsPageCount=(TextView) findViewById(R.id.detailsCount);
+        detailsDescription=(TextView) findViewById(R.id.detailsDescription);
+        scrollView=(ScrollView)findViewById(R.id.scroll);
+       // details.canScrollVertically(Verti)
 
     }
 
@@ -222,7 +265,55 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public static void getDetails(Book b)
+    {
+        result.setVisibility(View.INVISIBLE);
+        details.setVisibility(View.VISIBLE);
 
+        scrollView.scrollTo(0,scrollView.getTop());
+        detailsTitle.setText(b.getTitle());
+        //format authors
+        List<String> authors=b.getAuthors();
+        String authorData="Unknown author";
+        if(authors.size()==1)
+            authorData=authors.get(0);
+        else if(authors.size()>0)
+        {
+            StringBuilder sb=new StringBuilder();
+            for(String author:authors)
+            {
+                sb.append(author).append(", ");
+            }
+            String tmp=sb.toString();
+            tmp=tmp.substring(0,tmp.length()-2);
+            authorData=tmp;
+        }
+        String authorDataHtml = "<b>" + "Author/s:  "+ "</b> " + authorData;
+        detailsAuthors.setText(Html.fromHtml(authorDataHtml));
+
+        Picasso.get().load(b.getPoster()).into(detailsPoster);
+
+        String isbnHtml="<b>" + "ISBN:  "+ "</b> " + b.getISBN();
+        detailsIsbn.setText(Html.fromHtml(isbnHtml));
+
+        String publisherHtml="<b>" + "Publisher:  "+ "</b> " + b.getPublisher();
+        detailsPublisher.setText(Html.fromHtml(publisherHtml));
+
+        String dateHtml="<b>" + "Date published:  "+ "</b> " + b.getDatePublished();
+        detailsDate.setText(Html.fromHtml(dateHtml));
+
+        String countHtml="<b>" + "Page count:  "+ "</b> ";
+        if(b.getPageCount()==0)countHtml+="/";
+        else countHtml+=b.getPageCount();
+        detailsPageCount.setText(Html.fromHtml(countHtml));
+
+        detailsDescription.setText(b.getDescription());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            detailsDescription.setJustificationMode(Layout.JUSTIFICATION_MODE_INTER_WORD);
+        }
+
+
+    }
 
 
 

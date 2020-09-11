@@ -38,7 +38,7 @@ public class FetchBooks extends AsyncTask<String, Void, List<Book>> {
                 String poster="https://scontent.fskp4-2.fna.fbcdn.net/v/t1.15752-9/119042000_421418825502739_5480645885155497263_n.png?_nc_cat=110&_nc_sid=b96e70&_nc_ohc=BNXWgWupV9IAX-xVWx-&_nc_ht=scontent.fskp4-2.fna&oh=05e706a2956c7ccfe6ab6a9496dca48c&oe=5F7A10E8";
                 String desc="No description available...";
                 int pageCount=0;
-                String isbn="";
+                String isbn="Not available";
                 String date="Not available";
                 String publisher="Not available";
                 List<String> authors=new ArrayList<>();

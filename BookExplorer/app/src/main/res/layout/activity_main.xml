@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.drawerlayout.widget.DrawerLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -8,22 +9,24 @@
         android:layout_height="match_parent"
 
         tools:context=".MainActivity">
+
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
-    android:id="@+id/Home">
-
-        <TextView
-                android:textColor="#000000"
-                android:text="Home"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" android:id="@+id/textView1"/>
-    </LinearLayout>
+            android:layout_height="wrap_content">
 
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
-                                                android:id="@+id/Results">
+                      android:id="@+id/Home" android:orientation="vertical">
+
+            <TextView
+                    android:textColor="#000000"
+                    android:text="Home"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:id="@+id/textView1"/>
+
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:id="@+id/Results">
             <androidx.recyclerview.widget.RecyclerView
 
                     android:id="@+id/recyclerViewResults"
@@ -31,7 +34,156 @@
                     android:layout_height="match_parent"/>
 
         </LinearLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="wrap_content"
+                                                               android:layout_height="wrap_content"
+                                                               android:id="@+id/Details"
+                                                               app:layout_constraintEnd_toEndOf="parent"
+                                                               app:layout_constraintTop_toTopOf="parent"
+                                                               app:layout_constraintStart_toStartOf="parent"
+
+                                                               app:layout_constraintHorizontal_bias="1.0"
+                                                               app:layout_constraintVertical_bias="1.0">
+                <ScrollView
+                        android:id="@+id/scroll"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                >
+
+                    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:layout_marginEnd="20dp"
+                    >
+                <TextView
+                        android:text="TextView"
+                        android:layout_width="363dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/detailsTitle"
+                        android:textColor="#000012"
+                        android:textSize="22sp"
+                        android:textStyle="bold|italic"
+                        app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="28dp"/>
+                <View
+                        app:layout_constraintTop_toBottomOf="@+id/detailsTitle"
+
+                        android:layout_width="363dp"
+                        android:layout_height="1dp"
+                        android:background="#c0c0c0" app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginTop="15dp" app:layout_constraintEnd_toEndOf="parent"/>
+                <ImageView
+                        android:layout_width="156dp"
+                        android:layout_height="215dp" app:srcCompat="@color/colorAccent"
+                        android:id="@+id/detailsPoster"
+
+
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/detailsTitle"
+                        app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="24dp"
+                        app:layout_constraintTop_toBottomOf="@+id/detailsTitle" android:layout_marginTop="34dp"/>
+
+                <TextView
+                        android:text="TextView"
+                        android:layout_width="189dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/detailsAuthors"
+                        android:layout_alignParentEnd="true"
+                        android:layout_toEndOf="@+id/detailsPoster"
+                        android:layout_below="@+id/detailsTitle"
+                        app:layout_constraintTop_toBottomOf="@+id/detailsTitle" android:layout_marginTop="50dp"
+                        app:layout_constraintStart_toEndOf="@+id/detailsPoster" android:layout_marginStart="24dp"/>
+                <TextView
+                        android:text="TextView"
+                        android:layout_width="189dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/detailsIsbn"
+                        android:layout_alignParentEnd="true"
+                        android:layout_toEndOf="@+id/detailsPoster"
+                        android:layout_below="@+id/detailsAuthors"
+                        app:layout_constraintTop_toBottomOf="@+id/detailsAuthors" android:layout_marginTop="10dp"
+                        app:layout_constraintStart_toEndOf="@+id/detailsPoster" android:layout_marginStart="24dp"/>
+                <TextView
+                        android:text="TextView"
+                        android:layout_width="189dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/detailsPublisher"
+                        android:layout_alignParentEnd="true"
+                        android:layout_toEndOf="@+id/detailsPoster"
+                        android:layout_below="@+id/detailsAuthors"
+                        app:layout_constraintTop_toBottomOf="@+id/detailsIsbn" android:layout_marginTop="10dp"
+                        app:layout_constraintStart_toEndOf="@+id/detailsPoster" android:layout_marginStart="24dp"/>
+                <TextView
+                        android:text="TextView"
+                        android:layout_width="189dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/detailsDate"
+                        android:layout_alignParentEnd="true"
+                        android:layout_toEndOf="@+id/detailsPoster"
+                        android:layout_below="@+id/detailsAuthors"
+                        app:layout_constraintTop_toBottomOf="@+id/detailsPublisher" android:layout_marginTop="10dp"
+                        app:layout_constraintStart_toEndOf="@+id/detailsPoster" android:layout_marginStart="24dp"/>
+                <TextView
+                        android:text="TextView"
+                        android:layout_width="189dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/detailsCount"
+                        android:layout_alignParentEnd="true"
+                        android:layout_toEndOf="@+id/detailsPoster"
+                        android:layout_below="@+id/detailsAuthors"
+                        app:layout_constraintTop_toBottomOf="@+id/detailsDate" android:layout_marginTop="10dp"
+                        app:layout_constraintStart_toEndOf="@+id/detailsPoster" android:layout_marginStart="24dp"/>
+                <View
+                        app:layout_constraintTop_toBottomOf="@+id/detailsPoster"
+                        android:id="@+id/view"
+                        android:layout_width="363dp"
+                        android:layout_height="1dp"
+                        android:background="#c0c0c0" app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginTop="15dp" app:layout_constraintEnd_toEndOf="parent"/>
+                <TextView
+                        android:text="Description:"
+                        android:layout_width="189dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tmp"
+                        android:textStyle="bold"
+                        android:layout_alignParentEnd="true"
+                        android:layout_toEndOf="@+id/detailsPoster"
+                        android:layout_below="@+id/detailsAuthors"
+                        app:layout_constraintTop_toBottomOf="@+id/view" android:layout_marginTop="10dp"
+                        app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="24dp"
+                />
+
+                <TextView
+                        android:text="Description:"
+                        android:layout_width="360dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/detailsDescription"
+                        android:layout_alignParentEnd="true"
+                        android:layout_toEndOf="@+id/detailsPoster"
+                        android:layout_below="@+id/detailsAuthors"
+                        app:layout_constraintTop_toBottomOf="@+id/tmp" android:layout_marginTop="10dp"
+                        app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="24dp"
+                />  <Button android:layout_width="100dp" android:layout_height="20dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/detailsDescription" android:layout_marginTop="16dp"
+                            android:layout_marginEnd="15dp"
+                            android:text="Add to Wishlist"
+                            android:textSize="8sp"
+                            android:paddingBottom="20dp"
+                            android:textColor="#FFFFFF"
+                            android:background="@drawable/mybutton"
+                            />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </ScrollView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <com.google.android.material.navigation.NavigationView
             android:id="@+id/navView"
             android:layout_width="wrap_content"

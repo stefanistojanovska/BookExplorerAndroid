@@ -6,10 +6,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.mpip.bookexplorer.MainActivity;
+import com.mpip.bookexplorer.Models.Book;
 import com.mpip.bookexplorer.R;
 import com.squareup.picasso.Picasso;
 
@@ -26,6 +30,8 @@ public class CustomListViewHolder extends RecyclerView.ViewHolder {
     private TextView textTitle;
     private TextView textAuthors;
     private TextView textDesc;
+    public Button btnInfo;
+
 
     public CustomListViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -34,15 +40,19 @@ public class CustomListViewHolder extends RecyclerView.ViewHolder {
         textTitle = itemView.findViewById(R.id.textTitle);
         textAuthors=itemView.findViewById(R.id.textAuthors);
         textDesc=itemView.findViewById(R.id.textDescription);
+        btnInfo=(Button) itemView.findViewById(R.id.btnInfo);
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             textDesc.setJustificationMode(JUSTIFICATION_MODE_INTER_WORD);
         }
     }
 
-    public void setData(String title, List<String> authors,String description)  {
-        textTitle.setText(title);
+    public void setData(final Book book)  {
+        textTitle.setText(book.getTitle());
 
         //Format authors
+        List<String> authors=book.getAuthors();
         String authorData="Unknown author";
         if(authors.size()==1)
             authorData=authors.get(0);
@@ -61,12 +71,19 @@ public class CustomListViewHolder extends RecyclerView.ViewHolder {
             authorData=authorData.substring(0,40)+"..."; //za da bidat samo eden red
         textAuthors.setText(authorData);
 
-        String d=description;
+        String d=book.getDescription();
         if(d.length()>150)
             d=d.substring(0,150)+"...";
 
         textDesc.setText(d);
-        //image mora vo onBind
+
+        btnInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.getDetails(book);
+            }
+        });
+
     }
 
 

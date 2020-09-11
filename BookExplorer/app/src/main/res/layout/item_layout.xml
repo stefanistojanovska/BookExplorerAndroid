@@ -51,6 +51,6 @@
             android:textColor="#FFFFFF"
 
             android:background="@drawable/mybutton"
-            android:id="@+id/button2"
+            android:id="@+id/btnInfo"
             app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="16dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
