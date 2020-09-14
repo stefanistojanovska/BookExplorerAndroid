@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.mpip.bookexplorer.Holders.CustomListViewHolder;
@@ -35,6 +36,7 @@ public class CustomListAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((CustomListViewHolder)holder).setData(data.get(position));
         Picasso.get().load(data.get(position).getPoster()).into(((CustomListViewHolder) holder).imageView);
+
 
 
     }

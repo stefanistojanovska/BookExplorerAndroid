@@ -25,7 +25,7 @@ public class FetchBooks extends AsyncTask<String, Void, List<Book>> {
 
         try {
             //fetch
-            String data=NetworkUtils.getBookInfo(strings[0]);
+            String data=NetworkUtils.getBookInfo(strings[0],true);
             //parse
             JSONObject jsonObject=new JSONObject(data);
             JSONArray jsonArray = jsonObject.getJSONArray("items");

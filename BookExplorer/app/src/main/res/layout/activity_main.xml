@@ -15,13 +15,221 @@
             android:layout_height="wrap_content">
 
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
-                      android:id="@+id/Home" android:orientation="vertical">
+                      android:id="@+id/Home" android:orientation="vertical"
+      >
+
 
             <TextView
-                    android:textColor="#000000"
-                    android:text="Home"
+                    android:text=" Bestesellers"
+                    android:textColor="#FFFFFF"
+                    android:background="#000012"
+                    android:textSize="20dp"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" android:id="@+id/textView1"/>
+                    android:layout_height="wrap_content" app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="16dp" android:layout_marginStart="16dp" android:layout_marginEnd="16dp" android:id="@+id/textView"
+
+            />
+            <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                               android:layout_height="249dp">
+
+
+                <ImageView
+                        android:layout_width="113dp"
+                        android:layout_height="143dp" app:srcCompat="@color/colorAccent"
+                        android:id="@+id/bestPoster1"
+
+
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="24dp" app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="15dp"/>
+                <ImageView
+                        android:layout_width="113dp"
+                        android:layout_height="143dp" app:srcCompat="@color/colorAccent"
+                        android:id="@+id/bestPoster3"
+
+
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="149dp"
+                        app:layout_constraintHorizontal_bias="0.0" app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="15dp"/>
+                <ImageView
+                        android:layout_width="113dp"
+                        android:layout_height="143dp" app:srcCompat="@color/colorAccent"
+                        android:id="@+id/bestPoster2"
+
+
+                        android:layout_marginEnd="24dp"
+                        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="15dp"/>
+                <TextView
+                        android:text="TextView"
+                        android:layout_width="113dp"
+                        android:textColor="#000012"
+                        android:textAlignment="center"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/bestTitle1"
+                        app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="168dp"
+                        app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="24dp"/>
+                <TextView
+                        android:text="TextView"
+                        android:layout_width="113dp"
+                        android:textColor="#000012"
+                        android:textAlignment="center"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/bestTitle2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="168dp" android:layout_marginStart="149dp"
+                        app:layout_constraintHorizontal_bias="0.0"/>
+                <TextView
+                        android:text="TextView"
+                        android:layout_width="113dp"
+                        android:textColor="#000012"
+                        android:textAlignment="center"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/bestTitle3"
+                        android:layout_marginEnd="24dp"
+                        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="168dp"/>
+                <Button
+                        android:text="More Info"
+                        android:background="@drawable/mybutton"
+                        android:textSize="10dp"
+                        android:textColor="#FFFFFF"
+                        android:layout_width="72dp"
+                        android:layout_height="27dp" android:id="@+id/bestBtn1"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginBottom="14dp" app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="45dp"/>
+                <Button
+                        android:text="More Info"
+                        android:background="@drawable/mybutton"
+                        android:textSize="10dp"
+                        android:textColor="#FFFFFF"
+                        android:layout_width="72dp"
+                        android:layout_height="27dp" android:id="@+id/bestBtn2"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginBottom="14dp" app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="168dp"/>
+                <Button
+                        android:text="More Info"
+                        android:background="@drawable/mybutton"
+                        android:textSize="10dp"
+                        android:textColor="#FFFFFF"
+                        android:layout_width="72dp"
+                        android:layout_height="27dp" android:id="@+id/bestBtn3"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginBottom="14dp" app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="292dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                    android:text=" Most searched"
+                    android:textColor="#FFFFFF"
+                    android:background="#000012"
+                    android:textSize="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="16dp" android:layout_marginStart="16dp" android:layout_marginEnd="16dp" android:id="@+id/textView2"
+
+            />
+            <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                               android:layout_height="249dp">
+
+
+                <ImageView
+                        android:layout_width="113dp"
+                        android:layout_height="143dp" app:srcCompat="@color/colorAccent"
+                        android:id="@+id/recPoster1"
+
+
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="24dp" app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="15dp"/>
+                <ImageView
+                        android:layout_width="113dp"
+                        android:layout_height="143dp" app:srcCompat="@color/colorAccent"
+                        android:id="@+id/recPoster3"
+
+
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="149dp"
+                        app:layout_constraintHorizontal_bias="0.0" app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="15dp"/>
+                <ImageView
+                        android:layout_width="113dp"
+                        android:layout_height="143dp" app:srcCompat="@color/colorAccent"
+                        android:id="@+id/recPoster2"
+
+
+                        android:layout_marginEnd="24dp"
+                        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="15dp"/>
+                <TextView
+                        android:text="TextView"
+                        android:layout_width="113dp"
+                        android:textColor="#000012"
+                        android:textAlignment="center"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/recTitle1"
+                        app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="168dp"
+                        app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="24dp"/>
+                <TextView
+                        android:text="TextView"
+                        android:layout_width="113dp"
+                        android:textColor="#000012"
+                        android:textAlignment="center"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/recTitle2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="168dp" android:layout_marginStart="149dp"
+                        app:layout_constraintHorizontal_bias="0.0"/>
+                <TextView
+                        android:text="TextView"
+                        android:layout_width="113dp"
+                        android:textColor="#000012"
+                        android:textAlignment="center"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/recTitle3"
+                        android:layout_marginEnd="24dp"
+                        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="168dp"/>
+                <Button
+                        android:text="More Info"
+                        android:background="@drawable/mybutton"
+                        android:textSize="10dp"
+                        android:textColor="#FFFFFF"
+                        android:layout_width="72dp"
+                        android:layout_height="27dp" android:id="@+id/recBtn1"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginBottom="14dp" app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="45dp"/>
+                <Button
+                        android:text="More Info"
+                        android:background="@drawable/mybutton"
+                        android:textSize="10dp"
+                        android:textColor="#FFFFFF"
+                        android:layout_width="72dp"
+                        android:layout_height="27dp" android:id="@+id/recBtn2"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginBottom="14dp" app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="168dp"/>
+                <Button
+                        android:text="More Info"
+                        android:background="@drawable/mybutton"
+                        android:textSize="10dp"
+                        android:textColor="#FFFFFF"
+                        android:layout_width="72dp"
+                        android:layout_height="27dp" android:id="@+id/recBtn3"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginBottom="14dp" app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="292dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </LinearLayout>
 
@@ -34,6 +242,34 @@
                     android:layout_height="match_parent"/>
 
         </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:id="@+id/WishlistMessageView" android:orientation="vertical">
+
+         <TextView
+                 android:text=""
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:id="@+id/wishlistMessage"
+                android:textAlignment="center"
+                 android:layout_marginTop="260dp"
+         />
+
+        </LinearLayout>
+        <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:id="@+id/Wishlist" android:orientation="vertical">
+            <ProgressBar
+                    android:id="@+id/progressbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true" />
+            <androidx.recyclerview.widget.RecyclerView
+
+                    android:id="@+id/recyclerViewWishlist"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </RelativeLayout>
 
 
             <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="wrap_content"
@@ -52,127 +288,145 @@
                         app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
                 >
 
-                    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent" android:layout_height="match_parent"
-                    android:layout_marginEnd="20dp"
+                    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                                       android:layout_height="match_parent"
+                                                                       android:layout_marginEnd="20dp"
                     >
-                <TextView
-                        android:text="TextView"
-                        android:layout_width="363dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/detailsTitle"
-                        android:textColor="#000012"
-                        android:textSize="22sp"
-                        android:textStyle="bold|italic"
-                        app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="28dp"/>
-                <View
-                        app:layout_constraintTop_toBottomOf="@+id/detailsTitle"
+                        <TextView
+                                android:text="TextView"
+                                android:layout_width="363dp"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/detailsTitle"
+                                android:textColor="#000012"
+                                android:textSize="22sp"
+                                android:textStyle="bold|italic"
+                                app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="28dp"/>
+                        <View
+                                app:layout_constraintTop_toBottomOf="@+id/detailsTitle"
 
-                        android:layout_width="363dp"
-                        android:layout_height="1dp"
-                        android:background="#c0c0c0" app:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginTop="15dp" app:layout_constraintEnd_toEndOf="parent"/>
-                <ImageView
-                        android:layout_width="156dp"
-                        android:layout_height="215dp" app:srcCompat="@color/colorAccent"
-                        android:id="@+id/detailsPoster"
+                                android:layout_width="363dp"
+                                android:layout_height="1dp"
+                                android:background="#c0c0c0" app:layout_constraintStart_toStartOf="parent"
+                                android:layout_marginTop="15dp" app:layout_constraintEnd_toEndOf="parent"/>
+                        <ImageView
+                                android:layout_width="156dp"
+                                android:layout_height="215dp" app:srcCompat="@color/colorAccent"
+                                android:id="@+id/detailsPoster"
 
 
-                        android:layout_alignParentStart="true"
-                        android:layout_below="@+id/detailsTitle"
-                        app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="24dp"
-                        app:layout_constraintTop_toBottomOf="@+id/detailsTitle" android:layout_marginTop="34dp"/>
+                                android:layout_alignParentStart="true"
+                                android:layout_below="@+id/detailsTitle"
+                                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="24dp"
+                                app:layout_constraintTop_toBottomOf="@+id/detailsTitle"
+                                android:layout_marginTop="34dp"/>
 
-                <TextView
-                        android:text="TextView"
-                        android:layout_width="189dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/detailsAuthors"
-                        android:layout_alignParentEnd="true"
-                        android:layout_toEndOf="@+id/detailsPoster"
-                        android:layout_below="@+id/detailsTitle"
-                        app:layout_constraintTop_toBottomOf="@+id/detailsTitle" android:layout_marginTop="50dp"
-                        app:layout_constraintStart_toEndOf="@+id/detailsPoster" android:layout_marginStart="24dp"/>
-                <TextView
-                        android:text="TextView"
-                        android:layout_width="189dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/detailsIsbn"
-                        android:layout_alignParentEnd="true"
-                        android:layout_toEndOf="@+id/detailsPoster"
-                        android:layout_below="@+id/detailsAuthors"
-                        app:layout_constraintTop_toBottomOf="@+id/detailsAuthors" android:layout_marginTop="10dp"
-                        app:layout_constraintStart_toEndOf="@+id/detailsPoster" android:layout_marginStart="24dp"/>
-                <TextView
-                        android:text="TextView"
-                        android:layout_width="189dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/detailsPublisher"
-                        android:layout_alignParentEnd="true"
-                        android:layout_toEndOf="@+id/detailsPoster"
-                        android:layout_below="@+id/detailsAuthors"
-                        app:layout_constraintTop_toBottomOf="@+id/detailsIsbn" android:layout_marginTop="10dp"
-                        app:layout_constraintStart_toEndOf="@+id/detailsPoster" android:layout_marginStart="24dp"/>
-                <TextView
-                        android:text="TextView"
-                        android:layout_width="189dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/detailsDate"
-                        android:layout_alignParentEnd="true"
-                        android:layout_toEndOf="@+id/detailsPoster"
-                        android:layout_below="@+id/detailsAuthors"
-                        app:layout_constraintTop_toBottomOf="@+id/detailsPublisher" android:layout_marginTop="10dp"
-                        app:layout_constraintStart_toEndOf="@+id/detailsPoster" android:layout_marginStart="24dp"/>
-                <TextView
-                        android:text="TextView"
-                        android:layout_width="189dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/detailsCount"
-                        android:layout_alignParentEnd="true"
-                        android:layout_toEndOf="@+id/detailsPoster"
-                        android:layout_below="@+id/detailsAuthors"
-                        app:layout_constraintTop_toBottomOf="@+id/detailsDate" android:layout_marginTop="10dp"
-                        app:layout_constraintStart_toEndOf="@+id/detailsPoster" android:layout_marginStart="24dp"/>
-                <View
-                        app:layout_constraintTop_toBottomOf="@+id/detailsPoster"
-                        android:id="@+id/view"
-                        android:layout_width="363dp"
-                        android:layout_height="1dp"
-                        android:background="#c0c0c0" app:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginTop="15dp" app:layout_constraintEnd_toEndOf="parent"/>
-                <TextView
-                        android:text="Description:"
-                        android:layout_width="189dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tmp"
-                        android:textStyle="bold"
-                        android:layout_alignParentEnd="true"
-                        android:layout_toEndOf="@+id/detailsPoster"
-                        android:layout_below="@+id/detailsAuthors"
-                        app:layout_constraintTop_toBottomOf="@+id/view" android:layout_marginTop="10dp"
-                        app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="24dp"
-                />
+                        <TextView
+                                android:text="TextView"
+                                android:layout_width="189dp"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/detailsAuthors"
+                                android:layout_alignParentEnd="true"
+                                android:layout_toEndOf="@+id/detailsPoster"
+                                android:layout_below="@+id/detailsTitle"
+                                app:layout_constraintTop_toBottomOf="@+id/detailsTitle" android:layout_marginTop="50dp"
+                                app:layout_constraintStart_toEndOf="@+id/detailsPoster"
+                                android:layout_marginStart="24dp"/>
+                        <TextView
+                                android:text="TextView"
+                                android:layout_width="189dp"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/detailsIsbn"
+                                android:layout_alignParentEnd="true"
+                                android:layout_toEndOf="@+id/detailsPoster"
+                                android:layout_below="@+id/detailsAuthors"
+                                app:layout_constraintTop_toBottomOf="@+id/detailsAuthors"
+                                android:layout_marginTop="10dp"
+                                app:layout_constraintStart_toEndOf="@+id/detailsPoster"
+                                android:layout_marginStart="24dp"/>
+                        <TextView
+                                android:text="TextView"
+                                android:layout_width="189dp"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/detailsPublisher"
+                                android:layout_alignParentEnd="true"
+                                android:layout_toEndOf="@+id/detailsPoster"
+                                android:layout_below="@+id/detailsAuthors"
+                                app:layout_constraintTop_toBottomOf="@+id/detailsIsbn" android:layout_marginTop="10dp"
+                                app:layout_constraintStart_toEndOf="@+id/detailsPoster"
+                                android:layout_marginStart="24dp"/>
+                        <TextView
+                                android:text="TextView"
+                                android:layout_width="189dp"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/detailsDate"
+                                android:layout_alignParentEnd="true"
+                                android:layout_toEndOf="@+id/detailsPoster"
+                                android:layout_below="@+id/detailsAuthors"
+                                app:layout_constraintTop_toBottomOf="@+id/detailsPublisher"
+                                android:layout_marginTop="10dp"
+                                app:layout_constraintStart_toEndOf="@+id/detailsPoster"
+                                android:layout_marginStart="24dp"/>
+                        <TextView
+                                android:text="TextView"
+                                android:layout_width="189dp"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/detailsCount"
+                                android:layout_alignParentEnd="true"
+                                android:layout_toEndOf="@+id/detailsPoster"
+                                android:layout_below="@+id/detailsAuthors"
+                                app:layout_constraintTop_toBottomOf="@+id/detailsDate" android:layout_marginTop="10dp"
+                                app:layout_constraintStart_toEndOf="@+id/detailsPoster"
+                                android:layout_marginStart="24dp"/>
+                        <View
+                                app:layout_constraintTop_toBottomOf="@+id/detailsPoster"
+                                android:id="@+id/view"
+                                android:layout_width="363dp"
+                                android:layout_height="1dp"
+                                android:background="#c0c0c0" app:layout_constraintStart_toStartOf="parent"
+                                android:layout_marginTop="15dp" app:layout_constraintEnd_toEndOf="parent"/>
+                        <TextView
+                                android:text="Description:"
+                                android:layout_width="189dp"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/tmp"
+                                android:textStyle="bold"
+                                android:layout_alignParentEnd="true"
+                                android:layout_toEndOf="@+id/detailsPoster"
+                                android:layout_below="@+id/detailsAuthors"
+                                app:layout_constraintTop_toBottomOf="@+id/view" android:layout_marginTop="10dp"
+                                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="24dp"
+                        />
 
-                <TextView
-                        android:text="Description:"
-                        android:layout_width="360dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/detailsDescription"
-                        android:layout_alignParentEnd="true"
-                        android:layout_toEndOf="@+id/detailsPoster"
-                        android:layout_below="@+id/detailsAuthors"
-                        app:layout_constraintTop_toBottomOf="@+id/tmp" android:layout_marginTop="10dp"
-                        app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="24dp"
-                />  <Button android:layout_width="100dp" android:layout_height="20dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/detailsDescription" android:layout_marginTop="16dp"
-                            android:layout_marginEnd="15dp"
-                            android:text="Add to Wishlist"
-                            android:textSize="8sp"
-                            android:paddingBottom="20dp"
-                            android:textColor="#FFFFFF"
-                            android:background="@drawable/mybutton"
-                            />
+                        <TextView
+                                android:text="Description:"
+                                android:layout_width="360dp"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/detailsDescription"
+                                android:layout_alignParentEnd="true"
+                                android:layout_toEndOf="@+id/detailsPoster"
+                                android:layout_below="@+id/detailsAuthors"
+                                app:layout_constraintTop_toBottomOf="@+id/tmp" android:layout_marginTop="10dp"
+                                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="24dp"
+                        />
+                        <Button android:layout_width="100dp" android:layout_height="20dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/detailsDescription"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginEnd="15dp"
+                                android:text="@string/add_to_wishlist"
+                                android:textSize="8sp"
+                                android:textColor="#FFFFFF"
+                                android:background="@drawable/mybutton"
+                                android:id="@+id/btnWishlist"
+                                android:onClick="addToWishList"
+                        />
+                        <View
+                                android:id="@+id/v"
+                                android:layout_width="match_parent"
+                                android:layout_height="20dp"
+                                app:layout_constraintTop_toBottomOf="@id/btnWishlist"
+                                app:layout_constraintStart_toStartOf="parent"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </ScrollView>

@@ -20,7 +20,9 @@ public class NetworkUtils {
     private static final String MAX_RESULTS="maxResults";
     private static final String PRINT_TYPE="printType";
 
-    static String getBookInfo(String queryString){
+
+
+    public static String getBookInfo(String queryString, boolean isResults){
         HttpURLConnection urlConnection=null;
         BufferedReader reader=null;
         String bookJSONString=null;
@@ -28,11 +30,23 @@ public class NetworkUtils {
 
         try
         {
-            Uri builtURI=Uri.parse(BOOK_BASE_URL).buildUpon()
-                    .appendQueryParameter(QUERY_PARAM,queryString)
-                    .appendQueryParameter(MAX_RESULTS,"40")
-                    .appendQueryParameter(PRINT_TYPE,"books")
-                    .build();
+            Uri builtURI;
+            if(isResults)
+            {
+                builtURI=Uri.parse(BOOK_BASE_URL).buildUpon()
+                        .appendQueryParameter(QUERY_PARAM,queryString)
+                        .appendQueryParameter(MAX_RESULTS,"40")
+                        .appendQueryParameter(PRINT_TYPE,"books")
+                        .build();
+            }
+            else
+            {
+                builtURI=Uri.parse(BOOK_BASE_URL).buildUpon()
+                        .appendQueryParameter(QUERY_PARAM,"isbn:"+queryString)
+                        .build();
+
+            }
+
             URL requestURL=new URL(builtURI.toString());
             urlConnection=(HttpURLConnection) requestURL.openConnection();
             urlConnection.setRequestMethod("GET");
