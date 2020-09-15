@@ -6,7 +6,6 @@ import android.graphics.PorterDuff;
 import android.os.Build;
 import android.text.Html;
 import android.text.Layout;
-import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import androidx.annotation.NonNull;
@@ -32,7 +31,6 @@ import com.mpip.bookexplorer.Adapters.CustomListAdapter;
 import com.mpip.bookexplorer.Models.Book;
 import com.mpip.bookexplorer.Models.FetchBooksByIsbn;
 import com.squareup.picasso.Picasso;
-
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
@@ -45,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
     TextView userHeader;
     TextView displayNameHeader;
     ImageView userImage;
-    EditText input;
-    List<String> titles=new ArrayList<>();
     List<Book> data=new ArrayList<>();
     LinearLayout home;
     RelativeLayout wishlist;
@@ -58,7 +54,9 @@ public class MainActivity extends AppCompatActivity {
     Button btnWishlist;
     TextView wishlistMessage;
     int lastView;//0->results; 1->wishlist; 2->home
-    Boolean change=false;
+    RelativeLayout progress;
+    int numberOfItems;
+
 
 
     //data for details
@@ -74,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     static ScrollView scrollView;
     static RelativeLayout wishlistStat;
 
-    ProgressBar progressBar;
+
 
 
     @Override
@@ -83,12 +81,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initViews();
         initHome();
+        numberOfItems=0;
+
 
         home.setVisibility(View.VISIBLE);
         result.setVisibility(View.INVISIBLE);
         details.setVisibility(View.INVISIBLE);
         wishlist.setVisibility(View.INVISIBLE);
         wishListMessageView.setVisibility(View.INVISIBLE);
+        progress.setVisibility(View.INVISIBLE);
 
 
 
@@ -135,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                     userHeader.setText("");
-
+                    numberOfItems=0;
                     //update current details item
                     btnWishlist.setText("★ Wishlist");
                     if(wishlist.getVisibility()==View.VISIBLE || wishListMessageView.getVisibility()==View.VISIBLE)
@@ -156,12 +157,18 @@ public class MainActivity extends AppCompatActivity {
                     details.setVisibility(View.INVISIBLE);
                     wishlist.setVisibility(View.INVISIBLE);
                     wishListMessageView.setVisibility(View.INVISIBLE);
+                    progress.setVisibility(View.INVISIBLE);
                     //drawerLayout.closeDrawers();
                 }
                 else if(item.toString().equals("Wishlist"))
                 {
-
-                        populateWishlist();
+                    progress.setVisibility(View.VISIBLE);
+                    home.setVisibility(View.INVISIBLE);
+                    result.setVisibility(View.INVISIBLE);
+                    details.setVisibility(View.INVISIBLE);
+                    wishlist.setVisibility(View.INVISIBLE);
+                    wishListMessageView.setVisibility(View.INVISIBLE);
+                        populateWishlist(false);
 
 
                 }
@@ -173,29 +180,40 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    private void populateWishlist() {
+    private void populateWishlist(boolean isBack) {
 
-
-        lastView=1;
-        home.setVisibility(View.INVISIBLE);
-        result.setVisibility(View.INVISIBLE);
-        details.setVisibility(View.INVISIBLE);
-        //
+       final boolean[] flag = {false}; //0-> recyclerView  1-> messageView
         final RecyclerView recyclerView =  findViewById(R.id.recyclerViewWishlist);
+        lastView=1;
+        //wishlist.setVisibility(View.INVISIBLE);
+        if(!isBack)
+        {
+            wishListMessageView.setVisibility(View.VISIBLE);
+            wishlistMessage.setText("Loading...");
+        }
+        else if(numberOfItems==0)
+        {
+            recyclerView.setVisibility(View.INVISIBLE);
+            wishListMessageView.setVisibility(View.VISIBLE);
+            wishlistMessage.setText("Your wishlist is empty!");
+        }
+
+
+
 
         if(FirebaseAuth.getInstance().getCurrentUser()==null)
         {
 
-            wishlist.setVisibility(View.INVISIBLE);
-            wishListMessageView.setVisibility(View.VISIBLE);
+            wishlistMessage.setVisibility(View.VISIBLE);
             wishlistMessage.setText("You need to be logged in for this activity!");
+            flag[0] =true;
 
 
         }
-        else
-        {
+        else{
             //get isbns
             //TODO: FETCH FROM DATABASE
+
             final List<String> isbns=new ArrayList<>();
             final DatabaseReference refUser=FirebaseDatabase.getInstance().getReference().child("WISHLIST").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
             ValueEventListener eventListener = new ValueEventListener() {
@@ -205,26 +223,26 @@ public class MainActivity extends AppCompatActivity {
 
                     if(dataSnapshot.exists())
                     {
-                        home.setVisibility(View.INVISIBLE);
-                        details.setVisibility(View.INVISIBLE);
-                        result.setVisibility(View.INVISIBLE);
-                        wishlist.setVisibility(View.VISIBLE);
-                        wishListMessageView.setVisibility(View.INVISIBLE);
+                        flag[0] =false;
 
                         isbns.clear();
                         for(DataSnapshot isbnSnapshot:dataSnapshot.getChildren())
                         {
                             isbns.add(isbnSnapshot.getKey());
                         }
+
                         System.out.println(isbns);
                         //fetch books
                         try {
                             List<Book> data = new FetchBooksByIsbn().execute(isbns).get();
+                            numberOfItems=data.size();
                             recyclerView.setVisibility(View.VISIBLE);
                             recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
                             recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
                             adapter=new CustomListAdapter(data);
                             recyclerView.setAdapter(adapter);
+                            wishListMessageView.setVisibility(View.INVISIBLE);
+
 
                         }
                         catch (Exception e)
@@ -236,10 +254,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        //empty wishlist
-                        wishlist.setVisibility(View.INVISIBLE);
-                        wishListMessageView.setVisibility(View.VISIBLE);
+                        wishlistMessage.setVisibility(View.VISIBLE);
                         wishlistMessage.setText("Your wishlist is empty!");
+
+                        flag[0] =true;
 
                     }
 
@@ -253,14 +271,14 @@ public class MainActivity extends AppCompatActivity {
             refUser.addListenerForSingleValueEvent(eventListener);
 
 
-
         }
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-
-        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
-        adapter=new CustomListAdapter(data);
-        recyclerView.setAdapter(adapter);
+        progress.setVisibility(View.INVISIBLE);
+        if(flag[0])
+            wishListMessageView.setVisibility(View.VISIBLE);
+        else
+            wishlist.setVisibility(View.VISIBLE);
+        System.out.println(flag[0]);
 
     }
 
@@ -297,15 +315,21 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(details.getVisibility()==View.VISIBLE && lastView==0)
+        if(lastView==0)
         {
             details.setVisibility(View.INVISIBLE);
             result.setVisibility(View.VISIBLE);
 
         }
-        else if(details.getVisibility()==View.VISIBLE && lastView==1)
+        else if(lastView==1)
         {
-            populateWishlist();
+            progress.setVisibility(View.VISIBLE);
+            home.setVisibility(View.INVISIBLE);
+            result.setVisibility(View.INVISIBLE);
+            details.setVisibility(View.INVISIBLE);
+            wishlist.setVisibility(View.INVISIBLE);
+            wishListMessageView.setVisibility(View.INVISIBLE);
+            populateWishlist(true);
 
         } if(lastView==2)
         {
@@ -385,6 +409,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this,"Welcome, "+user.getEmail(),Toast.LENGTH_SHORT).show();
                 editMenuGroup(true);
                 detailsCheck();
+                numberOfItems=0;
                 if(lastView==1)
                 {
                     home.setVisibility(View.VISIBLE);
@@ -423,7 +448,7 @@ public class MainActivity extends AppCompatActivity {
         wishlistMessage=(TextView) findViewById(R.id.wishlistMessage);
         wishlistStat=(RelativeLayout) findViewById(R.id.Wishlist);
         wishListMessageView=(LinearLayout) findViewById(R.id.WishlistMessageView);
-       progressBar=(ProgressBar) findViewById(R.id.progressbar);
+       progress=(RelativeLayout) findViewById(R.id.Progress);
 
     }
 
@@ -573,6 +598,7 @@ public class MainActivity extends AppCompatActivity {
                         View v=toast.getView();
                         v.getBackground().setColorFilter(Color.LTGRAY, PorterDuff.Mode.SRC_IN);
                         toast.show();
+                        numberOfItems--;
 
 
                     }
@@ -587,6 +613,7 @@ public class MainActivity extends AppCompatActivity {
                         View v=toast.getView();
                         v.getBackground().setColorFilter(Color.LTGRAY, PorterDuff.Mode.SRC_IN);
                         toast.show();
+                        numberOfItems++;
 
                     }
 
@@ -631,87 +658,130 @@ public class MainActivity extends AppCompatActivity {
         data.add("0520913825");
         data.add("0472067842");
         data.add("3642020887");
-        try {
-            List<Book> bookData = new FetchBooksByIsbn().execute(data).get();
-            final Book b1=bookData.get(0);
-            Picasso.get().load(b1.getPoster()).into(bsPoster1);
-            bsTitle1.setText(b1.getTitle());
 
-            final Book b2=bookData.get(1);
-            Picasso.get().load(b2.getPoster()).into(bsPoster2);
-            bsTitle2.setText(b2.getTitle());
+        List<Book> books=new ArrayList<>();
+        List<String> tmpL=new ArrayList<>();
+        tmpL.add("Charlaine Harris");
+        Book tmp=new Book("Dead in the family", tmpL,
+                "Telepathic waitress Sookie Stackhouse contends with the outcome of the Fae War, her feelings for vampire Eric Northman, and the Shifter community going public.",
+                352,"http://books.google.com/books/content?id=KFuLDQAAQBAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api",
+                "9780441020157","2011","Penguin");
+        books.add(tmp);
 
-            final Book b3=bookData.get(2);
-            Picasso.get().load(b3.getPoster()).into(bsPoster3);
-            bsTitle3.setText(b3.getTitle());
+        tmpL=new ArrayList<>();
+        tmpL.add("W. Bruce Cameron");
+        tmp=new Book("A Dog's Purpose", tmpL,
+"The phenomenal New York Times Number One bestseller about the unbreakable bond between a dog and their human. Now a major film starring Dennis Quaid. This is the remarkable story of one endearing dog's search for his purpose over the course of several lives. More than just another charming dog story, A Dog's Purpose touches on the universal quest for an answer to life's most basic question: Why are we here? Surprised to find himself reborn as a rambunctious golden-haired puppy after a tragically short life as a stray mutt, Bailey's search for his new life's meaning leads him into the loving arms of eight-year-old Ethan. During their countless adventures, Bailey joyously discovers how to be a good dog. But this life as a family pet is not the end of Bailey's journey. Reborn as a puppy yet again, Bailey wonders – will he ever find his purpose? Heartwarming, insightful, and often laugh-out-loud funny, W. Bruce Cameron's A Dog's Purpose is not only the emotional and hilarious story of a dog's many lives, but also a dog's-eye commentary on human relationships and the unbreakable bonds between man and man's best friend. This moving and beautifully crafted story teaches us that love never dies, and that every creature on earth is born with a purpose.",
+                336,"http://books.google.com/books/content?id=5q8xkLvesdEC&printsec=frontcover&img=1&zoom=5&source=gbs_api",
+                "9781447213246","2011-12-22","Pan Macmillan");
+        books.add(tmp);
 
-            final Book r1=bookData.get(3);
-            Picasso.get().load(r1.getPoster()).into(recPoster1);
-            recTitle1.setText(r1.getTitle());
+        tmpL=new ArrayList<>();
+        tmpL.add("Steve Martin");
+        tmp=new Book("An Object of Beauty", tmpL,
+"Lacey Yeager is young, captivating, and ambitious enough to take the NYC art world by storm. Groomed at Sotheby's and hungry to keep climbing the social and career ladders put before her, Lacey charms men and women, old and young, rich and even richer with her magnetic charisma and liveliness. Her ascension to the highest tiers of the city parallel the soaring heights--and, at times, the dark lows--of the art world and the country from the late 1990s through today.",
+                320,"http://books.google.com/books/content?id=_2BzIHoeil8C&printsec=frontcover&img=1&zoom=5&source=gbs_api",
+                "9780446573665","2010-11-23","Grand Central Publishing");
+        books.add(tmp);
 
-            final Book r2=bookData.get(4);
-            Picasso.get().load(r2.getPoster()).into(recPoster2);
-            recTitle2.setText(r2.getTitle());
+        tmpL=new ArrayList<>();
+        tmpL.add("David B. Morris");
+        tmp=new Book("The Culture of Pain", tmpL,
+"This is a book about the meanings we make out of pain. The greatest surprise I encountered in discussing this topic over the past ten years was the consistency with which I was asked a single unvarying question: Are you writing about physical pain or mental pain? The overwhelming consistency of this response convinces me that modern culture rests upon and underlying belief so strong that it grips us with the force of a founding myth. Call it the Myth of Two Pains. We live in an era when many people believe--as a basic, unexamined foundation of thought--that pain comes divided into separate types: physical and mental. These two types of pain, so the myth goes, are as different as land and sea. You feel physical pain if your arm breaks, and you feel mental pain if your heart breaks. Between these two different events we seem to imagine a gulf so wide and deep that it might as well be filled by a sea that is impossible to navigate.",
+                354,"http://books.google.com/books/content?id=PhJ2LOp4BW4C&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+                "0520913825","1991-09-09","Univ of California Press");
+        books.add(tmp);
 
-            final Book r3=bookData.get(5);
-            Picasso.get().load(r3.getPoster()).into(recPoster3);
-            recTitle3.setText(r3.getTitle());
+        tmpL=new ArrayList<>();
+        tmpL.add("Laura M. Ahearn");
+        tmp=new Book("Invitations to Love", tmpL,
+"A discussion of the implications of the emergence of love-letter correspondences for social relations in Nepal",
+                295,"http://books.google.com/books/content?id=VsdAA8fmL88C&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+                "0472067842","2001","University of Michigan Press");
+        books.add(tmp);
 
-            //on click listeners
-            btnBest1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getDetails(b1);
-                    home.setVisibility(View.INVISIBLE);
-                    lastView=2;
-                }
-            });
-            btnBest2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getDetails(b2);
-                    home.setVisibility(View.INVISIBLE);
-                    lastView=2;
-                }
-            });
-            btnBest3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getDetails(b3);
-                    home.setVisibility(View.INVISIBLE);
-                    lastView=2;
-                }
-            });
-            btnRec1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getDetails(r1);
-                    home.setVisibility(View.INVISIBLE);
-                    lastView=2;
-                }
-            });
-            btnRec2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getDetails(r2);
-                    home.setVisibility(View.INVISIBLE);
-                    lastView=2;
-                }
-            });
-            btnRec3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getDetails(r3);
-                    home.setVisibility(View.INVISIBLE);
-                    lastView=2;
-                }
-            });
+        tmpL=new ArrayList<>();
+        tmpL.add("Giora Shaviv");
+        tmp=new Book("The Life of Stars", tmpL,
+"It is the stars, The stars above us, govern our conditions. William Shakespeare, King Lear A Few Words about What, Why and How The structure of the stars in general, and the Sun in particular, has been the subject of extensivescienti?cresearchanddebateforoveracentury.Thediscoveryofquantum theoryduringthe?rsthalfofthenineteenthcenturyprovidedmuchofthetheoretical background needed to understand the making of the stars and how they live off their energysource. Progress in the theoryof stellar structurewasmade through extensive discussions and controversies between the giants of the ?elds, as well as brilliant discoveries by astronomers. In this book, we shall carefully expose the building of the theory of stellar structure and evolution, and explain how our understanding of the stars has emerged from this background of incessant debate. About hundred years were required for astrophysics to answer the crucial ques tions: What is the energy source of the stars? How are the stars made? How do they evolve and eventually die? The answers to these questions have profound im plications for astrophysics, physics, and biology, and the question of how we our selves come to be here. While we already possess many of the answers, the theory of stellar structure is far from being complete, and there are many open questions, for example, concerning the mechanisms which trigger giant supernova explosions. Many internal hydrodynamic processes remain a mystery. Yet some global pictures can indeed be outlined, and this is what we shall attempt to do here.",
+                504,"http://books.google.com/books/content?id=tb5WFYlNbeAC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+                "3642020887","2009-10-03","Springer Science & Business Media");
+        books.add(tmp);
 
-        }
-        catch (Exception e)
-        {
-            e.getMessage();
-        }
+        final Book b1=books.get(0);
+        Picasso.get().load(b1.getPoster()).into(bsPoster1);
+        bsTitle1.setText(b1.getTitle());
+
+        final Book b2=books.get(1);
+        Picasso.get().load(b2.getPoster()).into(bsPoster2);
+        bsTitle2.setText(b2.getTitle());
+
+        final Book b3=books.get(2);
+        Picasso.get().load(b3.getPoster()).into(bsPoster3);
+        bsTitle3.setText(b3.getTitle());
+
+        final Book r1=books.get(3);
+        Picasso.get().load(r1.getPoster()).into(recPoster1);
+        recTitle1.setText(r1.getTitle());
+
+        final Book r2=books.get(4);
+        Picasso.get().load(r2.getPoster()).into(recPoster2);
+        recTitle2.setText(r2.getTitle());
+
+        final Book r3=books.get(5);
+        Picasso.get().load(r3.getPoster()).into(recPoster3);
+        recTitle3.setText(r3.getTitle());
+
+        //on click listeners
+        btnBest1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDetails(b1);
+                home.setVisibility(View.INVISIBLE);
+                lastView=2;
+            }
+        });
+        btnBest2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDetails(b2);
+                home.setVisibility(View.INVISIBLE);
+                lastView=2;
+            }
+        });
+        btnBest3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDetails(b3);
+                home.setVisibility(View.INVISIBLE);
+                lastView=2;
+            }
+        });
+        btnRec1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDetails(r1);
+                home.setVisibility(View.INVISIBLE);
+                lastView=2;
+            }
+        });
+        btnRec2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDetails(r2);
+                home.setVisibility(View.INVISIBLE);
+                lastView=2;
+            }
+        });
+        btnRec3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDetails(r3);
+                home.setVisibility(View.INVISIBLE);
+                lastView=2;
+            }
+        });
+
 
 
     }
